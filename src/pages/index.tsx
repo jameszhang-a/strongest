@@ -11,6 +11,10 @@ const Home: NextPage = () => {
   const [first, second] = ids;
   console.log(first, second);
 
+  const data = api.champs.getChampByID.useQuery({ id: first });
+  console.log(first);
+  console.log(data.data?.champs);
+
   return (
     <>
       <Head>
