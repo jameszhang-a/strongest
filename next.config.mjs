@@ -7,6 +7,16 @@
 
 /** @type {import("next").NextConfig} */
 const config = {
+  images: {
+    domains: ["ddragon.leagueoflegends.com"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "ddragon.leagueoflegends.com",
+        pathname: "*",
+      },
+    ],
+  },
   reactStrictMode: true,
   /* If trying out the experimental appDir, comment the i18n config out
    * @see https://github.com/vercel/next.js/issues/41980 */

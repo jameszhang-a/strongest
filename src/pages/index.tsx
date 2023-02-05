@@ -1,9 +1,14 @@
+/* eslint-disable @next/next/no-img-element */
 import { type NextPage } from "next";
 import Head from "next/head";
+import Image from "next/image";
 import { useState } from "react";
 
 import { api } from "../utils/api";
 import { getOptions } from "../utils/getChamps";
+
+const imageURL =
+  "http://ddragon.leagueoflegends.com/cdn/img/champion/loading/Zoe_0.jpg";
 
 const Home: NextPage = () => {
   const [ids, setIds] = useState(() => getOptions());
@@ -11,9 +16,9 @@ const Home: NextPage = () => {
   const [first, second] = ids;
   console.log(first, second);
 
-  const data = api.champs.getChampByID.useQuery({ id: first });
+  const firstChamp = api.champs.getChampByID.useQuery({ id: first });
+  const secondChamp = api.champs.getChampByID.useQuery({ id: second });
   console.log(first);
-  console.log(data.data?.champs);
 
   return (
     <>
@@ -33,12 +38,30 @@ const Home: NextPage = () => {
             Which champ will win a 1 v 1 fight with full build?
           </h2>
 
-          <div className=" flex max-w-2xl items-center justify-end rounded border border-red-50 p-8">
-            <div className="h-16 w-16 bg-red-700 text-lg">{first}</div>
+          <div className=" flex items-center justify-end border border-rose-200 p-8">
+            <div className="flex aspect-[5/9] h-80 flex-col bg-red-500">
+              <img
+                src={firstChamp.data?.image}
+                alt={firstChamp.data?.name}
+                className="aspect-auto h-full"
+              ></img>
+              <div className="pt-3 text-center text-white">
+                {firstChamp.data?.name}
+              </div>
+            </div>
 
             <div className="p-8 text-xl text-white">vs.</div>
 
-            <div className="h-16 w-16 bg-red-700 text-lg">{second}</div>
+            <div className="flex aspect-[5/9] h-80 flex-col">
+              <img
+                src={secondChamp.data?.image}
+                alt={secondChamp.data?.name}
+                className="h-full"
+              ></img>
+              <div className="pt-3 text-center text-white">
+                {secondChamp.data?.name}
+              </div>
+            </div>
           </div>
         </div>
       </main>
