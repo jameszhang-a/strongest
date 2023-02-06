@@ -1,10 +1,9 @@
 import { z } from "zod";
-import type { Root } from "../../../types/lol.types";
+
+// import the champions.json file
+import champInfo from "../../data/champions_updated.json";
 
 import { createTRPCRouter, publicProcedure } from "../trpc";
-
-const imageURL =
-  "http://ddragon.leagueoflegends.com/cdn/img/champion/loading/Zoe_0.jpg";
 
 const getImageURL = (champName: string) => {
   return `http://ddragon.leagueoflegends.com/cdn/img/champion/loading/${champName}_0.jpg`;
@@ -13,29 +12,23 @@ const getImageURL = (champName: string) => {
 export const lolRouter = createTRPCRouter({
   getChampByID: publicProcedure
     .input(z.object({ id: z.number() }))
-    .query(async ({ input }) => {
-      const res = await fetch(
-        "https://ddragon.leagueoflegends.com/cdn/12.23.1/data/en_US/champion.json"
-      );
+    .query(({ input }) => {
+      const champions = champInfo.data;
 
-      const champions = (await res.json()) as Root;
+      // console.log(champions.length);
 
-      const champNames = Object.keys(
-        champions.data
-      ) as (keyof typeof champions.data)[];
+      // console.log(champions[input.id]);
 
-      if (input.id < 0 || input.id >= champNames.length) {
-        throw new Error("Champion ID is out of bounds");
+      if (input.id < 0 || input.id >= champions.length) {
+        throw new Error(`Champion ID:${input.id} is out of bounds`);
       }
 
-      const champName = champNames[input.id]!;
-
-      const image = getImageURL(champName);
-      const name = champions.data[champName].name;
+      const champion = champions[input.id]!;
 
       return {
-        name,
-        image,
+        name: champion.name,
+        image: getImageURL(champion.id),
+        id: champion.key,
       };
     }),
 
