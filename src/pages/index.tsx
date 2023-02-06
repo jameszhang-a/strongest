@@ -3,6 +3,7 @@ import { type NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import { useState } from "react";
+import Champion from "../components/Champion";
 
 import { api } from "../utils/api";
 import { getOptions } from "../utils/getChamps";
@@ -46,35 +47,23 @@ const Home: NextPage = () => {
           </h2>
 
           <div className="flex items-center justify-end border border-rose-200 p-8">
-            <div className="flex aspect-[5/9] h-80 flex-col items-center">
-              <img
-                src={firstChamp.data?.image}
-                alt={firstChamp.data?.name}
-                className="aspect-auto h-full"
-              ></img>
-              <button
-                className="mx20 w-22 btn-warning btn-sm btn mt-4 capitalize"
-                onClick={() => voteForStronger(firstChamp)}
-              >
-                {firstChamp.data?.name}
-              </button>
-            </div>
+            {firstChamp.data &&
+              secondChamp.data &&
+              !firstChamp.isLoading &&
+              !secondChamp.isLoading && (
+                <>
+                  <Champion
+                    champion={firstChamp.data}
+                    vote={() => voteForStronger(firstChamp)}
+                  />
 
-            <div className="p-8 text-xl text-white">vs.</div>
-
-            <div className="flex aspect-[5/9] h-80 flex-col items-center">
-              <img
-                src={secondChamp.data?.image}
-                alt={secondChamp.data?.name}
-                className="aspect-[5/9] h-80"
-              ></img>
-              <button
-                className="mx20 w-22 btn-warning btn-sm btn mt-4 capitalize"
-                onClick={() => voteForStronger(secondChamp)}
-              >
-                {secondChamp.data?.name}
-              </button>
-            </div>
+                  <div className="p-8 text-xl text-white">vs.</div>
+                  <Champion
+                    champion={secondChamp.data}
+                    vote={() => voteForStronger(secondChamp)}
+                  />
+                </>
+              )}
           </div>
         </div>
       </main>
