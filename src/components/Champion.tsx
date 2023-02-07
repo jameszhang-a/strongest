@@ -1,4 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
+import Image from "next/image";
 import React from "react";
 import type { RouterOutputs } from "../utils/api";
 
@@ -11,8 +12,8 @@ const Champion: React.FC<{
   const { name, image } = champion;
 
   return (
-    <div className="flex aspect-[5/9] h-80 flex-col items-center">
-      <img src={image} alt={name} className="aspect-auto h-full"></img>
+    <div className="w-62 flex aspect-[5/9] h-80 flex-col items-center">
+      <Image src={image} alt={name} width="320" height="320"></Image>
       <button
         className="mx20 w-22 btn-warning btn-sm btn mt-4 capitalize"
         onClick={() => vote()}

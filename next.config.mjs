@@ -9,13 +9,13 @@
 const config = {
   images: {
     domains: ["ddragon.leagueoflegends.com"],
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "ddragon.leagueoflegends.com",
-        pathname: "*",
-      },
-    ],
+    // remotePatterns: [
+    //   {
+    //     protocol: "https",
+    //     hostname: "ddragon.leagueoflegends.com",
+    //     pathname: "/cdn/img/champion/loading/**",
+    //   },
+    // ],
   },
   reactStrictMode: true,
   /* If trying out the experimental appDir, comment the i18n config out
