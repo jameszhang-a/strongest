@@ -1,8 +1,6 @@
 import { z } from "zod";
-
 // import the champions.json file
 import champInfo from "../../data/champions_updated.json";
-
 import { createTRPCRouter, publicProcedure } from "../trpc";
 
 const getImageURL = (champName: string) => {
@@ -28,11 +26,25 @@ export const lolRouter = createTRPCRouter({
       return {
         name: champion.name,
         image: getImageURL(champion.id),
-        id: champion.key,
+        id: parseInt(champion.key),
       };
     }),
 
-  getAll: publicProcedure.query(({ ctx }) => {
-    return ctx.prisma.example.findMany();
-  }),
+  castVote: publicProcedure
+    .input(
+      z.object({
+        votedFor: z.number(),
+        votedAgainst: z.number(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const voted = await ctx.prisma.vote.create({
+        data: {
+          votedFor: input.votedFor,
+          votedAgainst: input.votedAgainst,
+        },
+      });
+
+      return { success: true, vote: voted };
+    }),
 });

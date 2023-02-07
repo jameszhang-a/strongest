@@ -1,15 +1,11 @@
 /* eslint-disable @next/next/no-img-element */
 import { type NextPage } from "next";
 import Head from "next/head";
-import Image from "next/image";
 import { useState } from "react";
 import Champion from "../components/Champion";
 
 import { api } from "../utils/api";
 import { getOptions } from "../utils/getChamps";
-
-// const btn =
-//   "border border-gray-200 bg-gray-200 text-gray-700 rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-gray-300 focus:outline-none focus:shadow-outline";
 
 const Home: NextPage = () => {
   const [ids, setIds] = useState(() => getOptions());
@@ -19,12 +15,35 @@ const Home: NextPage = () => {
   const firstChamp = api.champs.getChampByID.useQuery({ id: first });
   const secondChamp = api.champs.getChampByID.useQuery({ id: second });
 
-  const voteForStronger = (vote: typeof firstChamp) => {
-    console.log(
-      `voting for ${String(
-        vote.data?.name
-      )}, with a id of ${first}, actual id is ${String(vote.data?.id)}`
-    );
+  const voteMutation = api.champs.castVote.useMutation();
+
+  const voteForStronger = (votedFor: string) => {
+    if (!firstChamp.data?.id || !secondChamp.data?.id) return;
+
+    if (votedFor === "first") {
+      // console.log(
+      //   `voting for ${String(
+      //     firstChamp.data?.name
+      //   )}, with a id of ${first}, actual id is ${firstChamp.data?.id}`
+      // );
+
+      voteMutation.mutate({
+        votedFor: firstChamp.data?.id,
+        votedAgainst: secondChamp.data?.id,
+      });
+    } else if (votedFor === "second") {
+      // console.log(
+      //   `voting for ${String(
+      //     secondChamp.data?.name
+      //   )}, with a id of ${second}, actual id is ${secondChamp.data?.id}`
+      // );
+
+      voteMutation.mutate({
+        votedFor: secondChamp.data?.id,
+        votedAgainst: firstChamp.data?.id,
+      });
+    }
+
     setIds(getOptions());
   };
 
@@ -54,13 +73,13 @@ const Home: NextPage = () => {
                 <>
                   <Champion
                     champion={firstChamp.data}
-                    vote={() => voteForStronger(firstChamp)}
+                    vote={() => voteForStronger("first")}
                   />
 
                   <div className="p-8 text-xl text-white">vs.</div>
                   <Champion
                     champion={secondChamp.data}
-                    vote={() => voteForStronger(secondChamp)}
+                    vote={() => voteForStronger("second")}
                   />
                 </>
               )}
