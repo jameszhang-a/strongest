@@ -44,7 +44,7 @@ const Home: NextPage = () => {
         Which champ will win a 1 v 1 fight with full build?
       </h2>
 
-      <div className="flex items-center justify-end border border-rose-200 p-8">
+      <div className="flex items-center justify-end p-8">
         <Champion
           champion={firstChamp.data}
           vote={() => voteForStronger("first")}
