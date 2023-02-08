@@ -36,27 +36,26 @@ const Home: NextPage = () => {
 
   return (
     <>
-      <div className="container flex flex-col items-center justify-center px-4 py-16">
-        <h1 className="mt-[-10rem] pb-4 text-5xl font-extrabold tracking-tight text-white">
-          Strongest <span className="text-[hsl(280,100%,70%)]">Champ</span>
-        </h1>
+      <h1 className="mt-[-10rem] pb-4 text-5xl font-extrabold tracking-tight text-white">
+        Strongest <span className="text-[hsl(280,100%,70%)]">Champ</span>
+      </h1>
 
-        <h2 className="text-2xl text-white">
-          Which champ will win a 1 v 1 fight with full build?
-        </h2>
+      <h2 className="text-2xl text-white">
+        Which champ will win a 1 v 1 fight with full build?
+      </h2>
 
-        <div className="flex items-center justify-end border border-rose-200 p-8">
-          <Champion
-            champion={firstChamp.data}
-            vote={() => voteForStronger("first")}
-          />
+      <div className="flex items-center justify-end border border-rose-200 p-8">
+        <Champion
+          champion={firstChamp.data}
+          vote={() => voteForStronger("first")}
+        />
 
-          <div className="p-8 text-xl text-white">vs.</div>
-          <Champion
-            champion={secondChamp.data}
-            vote={() => voteForStronger("second")}
-          />
-        </div>
+        <div className="divider divider-horizontal">vs.</div>
+
+        <Champion
+          champion={secondChamp.data}
+          vote={() => voteForStronger("second")}
+        />
       </div>
     </>
   );
