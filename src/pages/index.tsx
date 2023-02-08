@@ -1,6 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
 import { type NextPage } from "next";
-import Head from "next/head";
 import { useState } from "react";
 import Champion from "../components/Champion";
 
@@ -47,23 +46,16 @@ const Home: NextPage = () => {
         </h2>
 
         <div className="flex items-center justify-end border border-rose-200 p-8">
-          {firstChamp.data &&
-            secondChamp.data &&
-            !firstChamp.isLoading &&
-            !secondChamp.isLoading && (
-              <>
-                <Champion
-                  champion={firstChamp.data}
-                  vote={() => voteForStronger("first")}
-                />
+          <Champion
+            champion={firstChamp.data}
+            vote={() => voteForStronger("first")}
+          />
 
-                <div className="p-8 text-xl text-white">vs.</div>
-                <Champion
-                  champion={secondChamp.data}
-                  vote={() => voteForStronger("second")}
-                />
-              </>
-            )}
+          <div className="p-8 text-xl text-white">vs.</div>
+          <Champion
+            champion={secondChamp.data}
+            vote={() => voteForStronger("second")}
+          />
         </div>
       </div>
     </>
