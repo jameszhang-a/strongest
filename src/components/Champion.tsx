@@ -13,14 +13,9 @@ const Champion: React.FC<{
   // showing a placeholder while loading
   if (!champion)
     return (
-      <div className="w-62 flex aspect-[5/9] h-80 flex-col items-center">
-        <Image
-          src={blurDataURL}
-          alt="placeholder"
-          width="178"
-          height="323"
-        ></Image>
-        <button className="mx20 w-22 btn-warning btn-sm btn mt-4 capitalize">
+      <div className="flex flex-col items-center">
+        <Image src={blurDataURL} alt="placeholder" width="178" height="323" />
+        <button className="mx20 w-22 btn-warning btn-sm btn mt-4 text-xs capitalize">
           loading...
         </button>
       </div>
@@ -29,8 +24,8 @@ const Champion: React.FC<{
   const { name, image } = champion;
 
   return (
-    <div className="w-62 flex aspect-[5/9] h-80 flex-col items-center">
-      <Image src={image} alt={name} width="178" height="323"></Image>
+    <div className="flex flex-col items-center">
+      <Image src={image} alt={name} width="178" height="323" />
       <button
         className="mx20 w-22 btn-warning btn-sm btn mt-4 capitalize"
         onClick={() => vote()}

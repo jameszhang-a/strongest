@@ -36,15 +36,15 @@ const Home: NextPage = () => {
 
   return (
     <>
-      <h1 className="mt-[-10rem] pb-4 text-5xl font-extrabold tracking-tight text-white">
+      <h1 className="mt-[-10rem] pb-4 text-center text-4xl font-extrabold tracking-tight text-white">
         Strongest <span className="text-[hsl(280,100%,70%)]">Champ</span>
       </h1>
 
-      <h2 className="text-2xl text-white">
-        Which champ will win a 1 v 1 fight with full build?
+      <h2 className="text-l pb-2 text-center text-white">
+        Who will win a 1 v 1 with full build?
       </h2>
 
-      <div className="flex items-center justify-end p-8">
+      <div className="flex items-center justify-end">
         <Champion
           champion={firstChamp.data}
           vote={() => voteForStronger("first")}

@@ -16,7 +16,7 @@ const Layout = ({ children }: LayoutProps) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="flex flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">
+      <main className="flex w-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] sm:from-red-500 md:from-yellow-500 lg:from-green-700">
         <Navbar />
         <div className="container flex min-h-screen flex-col items-center justify-center px-4 py-16 ">
           {children}
