@@ -16,7 +16,7 @@ type RowData = {
 type TableHeader = "votedFor" | "votedAgainst" | "winPercentage" | "name";
 
 const formatPercentage = (num: number) => {
-  return num % 1 === 0 ? `${num * 100}%` : `${(num * 100).toFixed(2)}%`;
+  return num % 1 === 0 ? `${num * 100}%` : `${(num * 100).toFixed(1)}%`;
 };
 
 const sortData = (
@@ -86,14 +86,14 @@ const Table: React.FC<{ allVotes: TableProps }> = ({ allVotes }) => {
   };
 
   return (
-    <>
+    <div className="min-h-[90vh]">
       <input
         placeholder="search for champ"
         type="text"
         onChange={handleSearchChange}
         className="mb-4 w-full rounded-md border border-[#3a3f53] p-2"
       />
-      <table className="w-[90vw] border-collapse overflow-hidden border border-slate-700 bg-zinc-800 lg:w-[800px]">
+      <table className="w-[90vw] table-auto border-collapse overflow-hidden border border-slate-700 bg-zinc-800 lg:w-[800px]">
         <thead>
           <tr>
             <CustomHeader
@@ -124,10 +124,6 @@ const Table: React.FC<{ allVotes: TableProps }> = ({ allVotes }) => {
               sortBy={sortBy}
               reverseSortDirection={reverseSortDirection}
             />
-            {/* <th>Name</th>
-            <th>W</th>
-            <th>L</th>
-            <th>Ratio</th> */}
           </tr>
         </thead>
 
@@ -149,21 +145,44 @@ const Table: React.FC<{ allVotes: TableProps }> = ({ allVotes }) => {
               </Cell>
               <Cell center>{champ.votedFor}</Cell>
               <Cell center>{champ.votedAgainst}</Cell>
-              <Cell className="justify-between">
+              <Cell className="justify-between px-2 sm:justify-evenly">
                 <progress
-                  className="progress progress-primary w-20 pr-1 max-[400px]:hidden sm:w-32"
+                  className="progress progress-primary w-20 pr-1 max-[500px]:hidden sm:w-32 md:w-52"
                   value={
                     champ.winPercentage === 0 ? 5 : champ.winPercentage * 100
                   }
                   max="100"
                 ></progress>
+                <div className="relative ml-2 min-[500px]:hidden">
+                  <div
+                    className="radial-progress  text-gray-400"
+                    style={
+                      {
+                        "--value": 100,
+                        "--size": "2rem",
+                      } as React.CSSProperties
+                    }
+                  />
+                  <div
+                    className="radial-progress absolute top-0 left-0 text-primary"
+                    style={
+                      {
+                        "--value":
+                          champ.winPercentage === 0
+                            ? 1
+                            : champ.winPercentage * 100,
+                        "--size": "2rem",
+                      } as React.CSSProperties
+                    }
+                  />
+                </div>
                 {formatPercentage(champ.winPercentage)}
               </Cell>
             </tr>
           ))}
         </tbody>
       </table>
-    </>
+    </div>
   );
 };
 
@@ -186,14 +205,17 @@ const CustomHeader = (props: CustomHeaderProps) => {
   }
 
   return (
-    <th className="border-r border-l border-gray-700 p-2">
-      {label}
-      <span className="ml-3" />
-      <i
-        onClick={onClick}
-        className={`fa-solid fa-chevron-right cursor-pointer p-3 transition-transform max-[400px]:hidden`}
-        style={{ transform: `rotate(${degree}deg)` }}
-      />
+    <th
+      className="cursor-pointer border-r border-l border-gray-700 p-2"
+      onClick={onClick}
+    >
+      <div className="flex flex-col items-center justify-evenly sm:flex-row">
+        {label}
+        <i
+          className={`fa-solid fa-chevron-right px-3 transition-transform max-[400px]:hidden`}
+          style={{ transform: `rotate(${degree}deg)` }}
+        />
+      </div>
     </th>
   );
 };
