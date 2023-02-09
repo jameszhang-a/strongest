@@ -93,7 +93,7 @@ const Table: React.FC<{ allVotes: TableProps }> = ({ allVotes }) => {
         onChange={handleSearchChange}
         className="mb-4 w-full rounded-md border border-[#3a3f53] p-2"
       />
-      <table className="table-zebra table w-full">
+      <table className="w-[90vw] border-collapse overflow-hidden border border-slate-700 bg-zinc-800 lg:w-[800px]">
         <thead>
           <tr>
             <CustomHeader
@@ -105,7 +105,7 @@ const Table: React.FC<{ allVotes: TableProps }> = ({ allVotes }) => {
             />
             <CustomHeader
               onClick={() => setSorting("votedFor")}
-              label="win"
+              label="Win"
               header="votedFor"
               sortBy={sortBy}
               reverseSortDirection={reverseSortDirection}
@@ -124,14 +124,18 @@ const Table: React.FC<{ allVotes: TableProps }> = ({ allVotes }) => {
               sortBy={sortBy}
               reverseSortDirection={reverseSortDirection}
             />
+            {/* <th>Name</th>
+            <th>W</th>
+            <th>L</th>
+            <th>Ratio</th> */}
           </tr>
         </thead>
 
         <tbody>
           {sortedData.map((champ) => (
-            <tr key={champ.id} className="hover ">
-              <td
-                className="flex cursor-pointer flex-row items-center border-r border-l border-gray-700"
+            <tr key={champ.id}>
+              <Cell
+                className="cursor-pointer p-2"
                 onClick={() => console.log(champ.name)}
               >
                 <Image
@@ -139,26 +143,22 @@ const Table: React.FC<{ allVotes: TableProps }> = ({ allVotes }) => {
                   alt={champ.name}
                   width={30}
                   height={30}
-                  className="mr-4 rounded-md border border-l border-[#3a3f53]"
+                  className="mask mask-squircle mr-4 rounded-md"
                 />
-                <span>{champ.name}</span>
-              </td>
-              <td className="border-r border-l border-gray-700">
-                {champ.votedFor}
-              </td>
-              <td className="border-r border-l border-gray-700">
-                {champ.votedAgainst}
-              </td>
-              <td className="border-r border-l border-gray-700">
+                {champ.name}
+              </Cell>
+              <Cell center>{champ.votedFor}</Cell>
+              <Cell center>{champ.votedAgainst}</Cell>
+              <Cell className="justify-between">
                 <progress
-                  className="progress progress-primary w-36 pr-5"
+                  className="progress progress-primary w-20 pr-1 max-[400px]:hidden sm:w-32"
                   value={
                     champ.winPercentage === 0 ? 5 : champ.winPercentage * 100
                   }
                   max="100"
                 ></progress>
                 {formatPercentage(champ.winPercentage)}
-              </td>
+              </Cell>
             </tr>
           ))}
         </tbody>
@@ -188,12 +188,36 @@ const CustomHeader = (props: CustomHeaderProps) => {
   return (
     <th className="border-r border-l border-gray-700 p-2">
       {label}
-      <span className="ml-5" />
+      <span className="ml-3" />
       <i
         onClick={onClick}
-        className={`fa-solid fa-chevron-right cursor-pointer p-3 transition-transform`}
+        className={`fa-solid fa-chevron-right cursor-pointer p-3 transition-transform max-[400px]:hidden`}
         style={{ transform: `rotate(${degree}deg)` }}
       />
     </th>
+  );
+};
+
+const Cell = ({
+  children,
+  className,
+  onClick,
+  center = false,
+}: {
+  children: React.ReactNode;
+  className?: string;
+  onClick?: () => void;
+  center?: boolean;
+}) => {
+  return (
+    <td className="border border-slate-700" onClick={onClick}>
+      <div
+        className={`flex flex-row items-center ${
+          center ? "justify-center" : ""
+        } ${className ? className : ""}`}
+      >
+        {children}
+      </div>
+    </td>
   );
 };
